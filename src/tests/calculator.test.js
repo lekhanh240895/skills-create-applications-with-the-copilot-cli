@@ -20,6 +20,26 @@ describe('calculator core functions', () => {
   test('divide by zero throws', () => {
     expect(() => calc.divide(1, 0)).toThrow('Division by zero');
   });
+
+  test('modulo(7,3) === 1', () => {
+    expect(calc.modulo(7,3)).toBe(1);
+  });
+
+  test('modulo by zero throws', () => {
+    expect(() => calc.modulo(1,0)).toThrow('Division by zero');
+  });
+
+  test('power(2,3) === 8', () => {
+    expect(calc.power(2,3)).toBe(8);
+  });
+
+  test('squareRoot(9) === 3', () => {
+    expect(calc.squareRoot(9)).toBe(3);
+  });
+
+  test('squareRoot negative throws', () => {
+    expect(() => calc.squareRoot(-1)).toThrow('Square root of negative number');
+  });
 });
 
 describe('compute(operator, left, right) integration', () => {
@@ -62,7 +82,24 @@ describe('compute(operator, left, right) integration', () => {
     expect(() => calc.compute('+', 'a', '1')).toThrow('Invalid number');
   });
 
+  test('power operator ^ works', () => {
+    expect(calc.compute('^', '2', '3')).toBe(8);
+    expect(calc.compute('pow', '2', '3')).toBe(8);
+    expect(calc.compute('**', '2', '3')).toBe(8);
+  });
+
+  test('modulo operator % works', () => {
+    expect(calc.compute('%', '7', '3')).toBe(1);
+    expect(calc.compute('%', '5', '2')).toBe(1);
+  });
+
+  test('sqrt operator is unary and works', () => {
+    expect(calc.compute('sqrt', '16')).toBe(4);
+    expect(calc.compute('sqrt', '9')).toBe(3);
+    expect(() => calc.compute('sqrt', '-4')).toThrow('Square root of negative number');
+  });
+
   test('unsupported operator throws', () => {
-    expect(() => calc.compute('^', '2', '3')).toThrow('Unsupported operator');
+    expect(() => calc.compute('???', '2', '3')).toThrow('Unsupported operator');
   });
 });
